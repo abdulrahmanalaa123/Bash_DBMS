@@ -9,11 +9,16 @@ getSelectValues(){
   cols=($(echo $input | grep -oiP '(?<=select).*(?=from)'))
   id=($(echo $input | sed 's/ //g' | grep -oiP '(?<=whereid=).*'))
   if [[ -n "$id" ]]; then
-      table=($(echo $input | sed 's/ //g' | grep -oiP '(?<=from).*(?=where)'))
+      table_name=($(echo $input | sed 's/ //g' | grep -oiP '(?<=from).*(?=where)'))
   else
-      table=($(echo $input | sed 's/ //g' | grep -oiP '(?<=from).*'))
+      table_name=($(echo $input | sed 's/ //g' | grep -oiP '(?<=from).*'))
   fi
-#  echo $table $id ${cols[@]}
+  if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$id" ]; then
+    echo $table_name
+    echo $id
+    echo ${cols[@]}
+  fi
+
 }
 
 

@@ -6,10 +6,8 @@ function insert_record() {
   getInsertValues $@
   getTableFIle
 
-  echo $table_name ${cols[@]} ${values[@]}
-
   if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$values" ]; then
-#    echo $table_name ${cols[@]} ${values[@]}
+    echo $table_name; echo ${cols[@]}; echo ${values[@]}
     appendToTableFile $table_path
   fi
 

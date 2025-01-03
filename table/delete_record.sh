@@ -4,7 +4,9 @@
 delete_record() {
   table_name=($(echo $input | grep -oiP '(?<=delete from).*(?=where)'))
   id=($(echo $input | sed 's/ //g' | grep -oiP '(?<=whereid=).*'))
-  if [ -n "$table_name" ] && [ -n "id" ]; then
+  if [ -n "$table_name" ] && [ -n "$id" ]; then
+    echo $table_name;
+    echo $id;
     delete_row_by_id $table_name $id
   fi
 }
@@ -12,7 +14,7 @@ delete_record() {
 delete_row_by_id(){
   table_name=$1
   primary_key=$2
-  DATABASE="school"
+  DATABASE="animals"
 
   local table_file="Databases/$DATABASE/${table_name}.csv"
 
