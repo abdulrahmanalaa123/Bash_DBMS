@@ -1,0 +1,28 @@
+# IntelliJ IDEA project files
+.idea/
+
+# Exclude specific modules
+*.iml
+*.iws
+
+# Exclude workspace files
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Ignore other configuration files
+.idea/dictionaries/
+.idea/libraries/
+.idea/modules.xml
+.idea/vcs.xml
+.idea/assetWizard.xml
+.idea/misc.xml
+
+# Ignore build directories
+out/
+build/
+
+# Ignore logs
+*.log
+
+# Ignore any local settings or temp files
+*.swp

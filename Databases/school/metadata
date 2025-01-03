@@ -1,0 +1,13 @@
+Database: school
+Number of Tables: 2
+
+Table: student
+id,name, grade
+int,string,string
+pk: 1
+
+Table:teacher
+id,name,subject
+int,string,string
+pk: 1
+
