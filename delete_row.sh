@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# Function to remove a row by primary key
 remove_row_by_id() {
     local table_name=$1
     local primary_key=$2
@@ -21,18 +24,9 @@ remove_row_by_id() {
     fi
 }
 
-# Function to prompt the user for table name and primary key
-prompt_user() {
-    # Ask for the table name
-    read -p "Enter the table name: " table_name
+# Prompt the user for table name and primary key
+read -p "Enter the table name: " table_name
+read -p "Enter the primary key (id) of the row to delete: " primary_key
 
-    # Ask for the primary key
-    read -p "Enter the primary key (id) of the row to delete: " primary_key
-
-    # Call the remove_row_by_id function
-    remove_row_by_id "$table_name" "$primary_key"
-}
-
-# Main script execution
-   prompt_user
-
+# Call the remove_row_by_id function with user inputs
+remove_row_by_id "$table_name" "$primary_key"
