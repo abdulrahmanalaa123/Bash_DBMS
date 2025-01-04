@@ -21,8 +21,6 @@ validate_type () {
 			after_dot=${@##*\.}
 			#finding what's before the dot by deleting whats in the end
 			before_dot=${@%%\.*}
-			echo "after dot is $after_dot"
-			echo "before dot is $before_dot"
 
 			#after_dot and before_dot not empty so they have numbers 
 			if [ -n "$after_dot" ] && [ -n "$before_dot" ] && [ !-n ${after_dot//[0-9]} ] && [ !-n ${before_dot//[0-9]} ];
