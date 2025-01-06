@@ -26,6 +26,7 @@ function getInsertValues() {
 getTableFIle() {
   file_name="$table_name.csv"
   table_path="Databases/$database/$file_name"
+#  table_path="Databases/A7lam/$file_name"
 }
 
 appendToTableFile() {

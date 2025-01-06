@@ -10,8 +10,7 @@
 #    ....
 # ); 
 #5) DROP TABLE table_name; 
-#6) ALTER TABLE table_name
-#7) ADD column_name datatype; 
+#6) ALTER TABLE table_name ADD column_name datatype;
 
 
 # TABLES

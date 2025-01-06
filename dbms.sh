@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 source ./database/create_database.sh
+source ./database/drop_database.sh
 source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
@@ -9,7 +10,7 @@ source ./table/delete_record.sh
 #!/usr/bin/bash
 
 show_databases () {
-  show_command=$(echo "$@" | grep 'connect')
+  show_command=$(echo "$@" | grep 'show')
   databases=($(ls Databases))
   if [[ -n "$show_command" ]]
   then
@@ -43,9 +44,10 @@ do
   read -p "> " input
   create_database $input
   show_databases $input
+  drop_database $input
   if [[ -z $database ]];
   then
-    echo '> Connect to database by typing: connect'
+    echo '> Show databases by typing: show'
     continue
   fi
   insert_record $input
