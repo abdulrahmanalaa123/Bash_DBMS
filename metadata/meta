@@ -1,0 +1,18 @@
+================
+table: table
+column_names: bla,mar,ibla
+column_types: int,int,int
+primary key Index: 1
+primary key: mar
+================
+table: table
+column_names: bla,mar,ibla
+column_types: int,int,int
+primary key Index: 1
+primary key: mar
+================
+table: table
+column_names: bla,mar,ibla
+column_types: int,int,int
+primary key Index: 1
+primary key: mar
