@@ -7,7 +7,7 @@ function insert_record() {
   getTableFIle
 
   if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$values" ]; then
-    echo $table_name; echo ${cols[@]}; echo ${values[@]}
+#    echo $table_name; echo ${cols[@]}; echo ${values[@]}
     appendToTableFile $table_path
   fi
 
@@ -25,13 +25,18 @@ function getInsertValues() {
 
 getTableFIle() {
   file_name="$table_name.csv"
-  table_path="Databases/animals/$file_name"
+  table_path="Databases/$database/$file_name"
+#  table_path="Databases/A7lam/$file_name"
 }
 
 appendToTableFile() {
   table_path=$1
   echo $values_joined >> $table_path
-  echo "Row inserted successfully"
+  if [ $? -ne 0 ]; then
+    echo "Something went wrong"
+  else
+    echo "Row inserted successfully"
+  fi
 }
 
 
