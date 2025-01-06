@@ -1,16 +1,53 @@
 #!/usr/bin/bash
 
 source ./database/create_database.sh
-source ./database/show_databases.sh
 source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
 
+#!/usr/bin/bash
+
+show_databases () {
+  show_command=$(echo "$@" | grep 'connect')
+  databases=($(ls Databases))
+  if [[ -n "$show_command" ]]
+  then
+    list_databases
+  fi
+}
+
+
+list_databases () {
+  PS3="Select the database name:"
+  select db in "${databases[@]}";
+  do
+    if [[ -n "$db" ]]; then
+      case $db in
+        *)
+          echo "connected to: $db"
+          database=$db
+          break
+          ;;
+      esac
+    else
+      echo "Please select a valid option."
+    fi
+  done
+}
+
+
 
 while [[ $input != 'quit' ]];
 do
   read -p "> " input
+  create_database $input
+  show_databases $input
+  if [[ -z $database ]];
+  then
+    echo '> Connect to database by typing: connect'
+    continue
+  fi
   insert_record $input
   select_records $input
   update_record $input
@@ -19,7 +56,3 @@ done
 
 
 echo 'Goodbye'
-
-
-
-#show_databases
