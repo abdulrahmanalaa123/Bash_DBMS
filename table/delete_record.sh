@@ -14,9 +14,8 @@ delete_record() {
 delete_row_by_id(){
   table_name=$1
   primary_key=$2
-  DATABASE="animals"
 
-  local table_file="Databases/$DATABASE/${table_name}.csv"
+  local table_file="Databases/$database/${table_name}.csv"
 
 #   table exist validation
 #    if [ ! -f $table_file ]; then
