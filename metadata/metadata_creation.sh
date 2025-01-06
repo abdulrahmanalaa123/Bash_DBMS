@@ -10,9 +10,14 @@ metadata_creation () {
 	table_name=$1
 	col_amount=$2
 
-	validate_input
 	shift 2
+	rest=${#@}
+	create_validate_input
 	
+	if [[ $? -eq 1 ]]
+	then
+		return 1
+	fi
 	#converting the seperationg to a list explicitly
 	declare -a col_list=(${@:1:$col_amount})
 	shift $(($col_amount))
@@ -32,22 +37,29 @@ metadata_creation () {
 	metadata_string+=$(printf "\ncolumn_names: $col_string\n")
 	metadata_string+=$(printf "\ncolumn_types: $val_string\n")
 
-	echo "not supposed to be here"
 	add_primary	
+
+	if [[ $? -eq 1 ]]
+	then
+		return 1
+	fi
 	meta_path="$creation_source/../Databases/$database/$database.meta"
 	echo -e "$metadata_string" >> "$meta_path" 
 
 }
 
-validate_input () {
-	echo $col_amount
+create_validate_input () {
 	validation=$(validate_type int $col_amount)
-	echo "validation is $validation"
 	if [[ $(validate_type int $col_amount) = "NaN" ]]
 	then
 		echo "please enter a valid integer "
-		exit 1
+		return 1
 	fi
+	if [[ $rest -ne  $(((2*$col_amount)+1)) ]]
+	then
+		echo "invalid amount of types with number of columns"
+		return 1
+	fi	
 }
 
 
@@ -61,22 +73,13 @@ add_primary () {
 		metadata_string+=$(printf "\nprimary_key: ${col_list[primary_index]}\n")	
 	else
 		echo "please enter a valid primary key index"
-		exit 1
+		return 1
 	fi
 	else
 		echo "please enter a valid primary key index starting from 0"
-		exit 1
+		return 1
 	fi
 
 }
 
 
-# col_no needs to be specificied 
-# check to check if type_list is equal to col_list plus their primary Key
-# since most of the usage would be from the create table function
-# then this check is kind of redundant
-#if [ ${#@} -ne $(((2*$col_amount)+1)) ]
-#then
-#	echo "please enter a valid amount of columns with their respective column types"
-#	exit 1	
-#fi

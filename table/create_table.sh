@@ -5,23 +5,24 @@ create_table_source=$(dirname ${BASH_SOURCE[0]})
 
 # create table (colmn1 type, column2 tyep2 ....) 
 create_table() {
-	query=$1
-	command_extraction 
+	query=$(echo $@)
+	create_extraction	
+	
 	#compare the main_command with create
 	if [[  $main_command = "create" ]]
 	then
 	
-		table_checking
+		create_table_check	
 		path="$create_table_source/../Databases/$database/$table_name.csv"
 
 		if [[ -e $path ]]
 		then
 			echo "table $table_name already exists"
-			exit 1
+			return 1
 		fi
 
 		#extract columns comma delimited
-		columns=$(echo $1 | grep -Eo '\((.*)\)')
+		columns=$(echo $query | grep -Eo '\((.*)\)')
 		#remove brackets to enable turning the column types into arrays
 		columns=${columns//[\(\)]/}
 		#convert the columns into an array 
@@ -36,28 +37,32 @@ create_table() {
 		do
 			elem_types=(${colum_arr[index]})
 			col_name=${elem_types[0]}
-			echo "index is: $index"
 			check_colName
 			types=${elem_types[@]:1}			
 			check_type
 		done
 		col_string="${col_list[@]}"
-		metadata_creation $table_name ${#col_list[@]} ${col_list[@]} ${val_list[@]} $primary_index
-		echo "${col_string//[ ]/,}" >> "$path"
+		if [[ $? -eq 1 ]]
+		then
+			return 1
+		else
+			metadata_creation $table_name ${#col_list[@]} ${col_list[@]} ${val_list[@]} $primary_index
+			echo "${col_string//[ ]/,}" >> "$path"
+			echo "created table $table_name successfuly"	
+		fi
 	fi
 }
 
-command_extraction () {
+create_extraction () {
 	#create table
 	#create
-	main_command=$(echo $query | grep -Eo "^(\w)+[[:space:]]")
+	main_command=$(echo $query | grep -Eo "^create[[:space:]]+")
 	main_command=${main_command// /}
 	#turning the main_command lower_case to standardize syntax
 	main_command=${main_command,,}		
-	echo $main_command
 }
 
-table_checking () {
+create_table_check () {
 	#extract table name from the query
 	table_name=$(echo $query | grep -Eo '[[:space:]]+(\w)+[[:space:]]+[\(]{1}')
 	#remove the extra delimiting which is the bracker
@@ -66,14 +71,13 @@ table_checking () {
 }
 
 check_colName () {
-	echo "checking $col_name"
 	if [[ ! $col_name =~ ^(int|float|string|primary)$ ]]
 	then
 		echo $col_name
 		col_list+=("$col_name")			
 	else
 		echo "cannot name $col_name with int,string,float,primary"
-		exit 1
+		return 1
 	fi
 }
 
@@ -91,7 +95,7 @@ check_type () {
 		val_list+=("${type_list[0]}")
 	else
 		echo "invalid type_list of $types"	
-		exit 1
+		return 1
 	fi
 
 }

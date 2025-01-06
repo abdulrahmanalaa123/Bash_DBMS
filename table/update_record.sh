@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 # 3) UPDATE cats SET name = jack, age = 19 WHERE id=1
+update_source=$(dirname ${BASH_SOURCE[0]})
 
 # Function to update a record
 function update_record() {
@@ -8,7 +9,7 @@ function update_record() {
   header=()
   declare -A updates
   get_updates_values
-  csv_file="Databases/$database/$table_name.csv"
+  csv_file="$update_source/../Databases/$database/$table_name.csv"
 #  validate_input
   if [ -n "$table_name" ] && [ -n "$id" ] && [ -n "$col_assignments" ]; then
     create_updates_hash
@@ -60,8 +61,6 @@ process_data_file() {
       for col_name in "${!updates[@]}"; do
         col_value="${updates[$col_name]}"
         for i in "${!header[@]}"; do
-#          echo "${#header[$i]}" "=>" "${#col_name}"
-#          echo "${header[$i]}" "=>" "${col_name}"
           #TODO: fix this issue of string length
           col_name=$(echo "$col_name" | sed 's/ //g')
           if [ "${header[$i]}" == "$col_name" ]; then

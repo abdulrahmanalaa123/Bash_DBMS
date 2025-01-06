@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 #4) DELETE FROM table_name WHERE condition;
+delete_row_source=$(dirname ${BASH_SOURCE[0]})
 
 delete_record() {
   input=$@
@@ -16,9 +17,9 @@ delete_row_by_id(){
   table_name=$1
   primary_key=$2
 
-  local table_file="Databases/$database/${table_name}.csv"
+  local table_file="$delete_row_source/../Databases/$database/${table_name}.csv"
 
-   table exist validation
+   #table exist validation
     if [ ! -f $table_file ]; then
          echo "Table not found"
             return 1

@@ -1,7 +1,0 @@
-Table: cats
-3
-id,name,age
-string,string,int
-pk: 1
-
-

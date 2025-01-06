@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 #1) INSERT INTO table_name (column1, column2, column3, ...)
 # VALUES (value1, value2, value3, ...);
+insert_source=$(dirname ${BASH_SOURCE[0]})
 
 function insert_record() {
   getInsertValues $@
@@ -31,7 +32,7 @@ function appendId() {
 
 getTableFIle() {
   file_name="$table_name.csv"
-  table_path="Databases/$database/$file_name"
+  table_path="$input_source/../Databases/$database/$file_name"
 #  table_path="Databases/A7lam/$file_name"
 }
 

@@ -5,6 +5,8 @@ source ./database/drop_database.sh
 source ./database/show_tables.sh
 source ./database/show_table.sh
 source ./table/insert_record.sh
+source ./table/create_table.sh
+source ./table/drop_table.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
@@ -39,7 +41,6 @@ list_databases () {
 
 while [[ $input != 'quit' ]];
 do
-  echo $database
   read -p "> " input
   create_database $input
   show_databases $input
@@ -51,6 +52,8 @@ do
   fi
   show_tables $input
   show_table $input
+  create_table $input
+  drop_table $input
   insert_record $input
   select_records $input
   update_record $input

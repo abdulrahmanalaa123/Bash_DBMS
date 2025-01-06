@@ -38,5 +38,4 @@ type_extraction () {
 		val=${types[index]}
 		col_types["$name"]="$val"
 	done
-
 }

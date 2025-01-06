@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+show_table_source=$(dirname ${BASH_SOURCE[0]})
 
 show_table() {
   input=$@
@@ -31,7 +32,7 @@ display_a_row () {
   id=${id//-/}
   shift 2
   cols_index=("$@")
-  path="Databases/$database/$table_name.csv"
+  path="$show_table_source/../Databases/$database/$table_name.csv"
 
   echo "----------------------------------"
     # format the CSV into columns

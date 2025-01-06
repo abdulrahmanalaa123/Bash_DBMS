@@ -1,0 +1,6 @@
+create tabel (id int primary,column2 string)
+
+tabel
+2
+id,column2
+int,string
