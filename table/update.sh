@@ -28,7 +28,7 @@
 #     echo "${col_values[@]}"
 #   fi
 
-
+update_source=$(dirname $0)
 #echo "Debug: Script started"
 
 function update_record() {
@@ -46,7 +46,7 @@ function update_record() {
   fi
 
   # Define the path to the CSV file
-  csv_file="$HOME/${table_name}.csv"
+  csv_file="$update_source/../Databases/$database/${table_name}.csv"
  # echo "Debug: Checking if CSV file exists at '$csv_file'"
   if [ ! -f "$csv_file" ]; then
     echo "Error: CSV file '$csv_file' does not exist."

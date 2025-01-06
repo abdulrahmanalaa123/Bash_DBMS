@@ -6,6 +6,8 @@ source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
+source ./table/delete_row.sh
+source ./table/update_row.sh
 source ./show_table.sh
 
 #!/usr/bin/bash
