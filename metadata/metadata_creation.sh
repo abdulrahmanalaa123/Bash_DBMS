@@ -5,7 +5,7 @@
 # metadata_creation needs to be ran inside the source of database 
 # assuming it wont be ran unless you're connected where cd'd inside the database
 metadata_creation () {
-	
+	# this should be turned into a module on its own but not right now	
 	table_name=$1
 	col_amount=$2
 

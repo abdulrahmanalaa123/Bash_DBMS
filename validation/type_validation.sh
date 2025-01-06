@@ -40,6 +40,7 @@ validate_type () {
 	else
 
 		echo "please enter a valid type out of int | string | float"
+		exit 1
 	fi
 }
 

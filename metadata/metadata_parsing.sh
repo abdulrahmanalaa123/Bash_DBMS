@@ -4,7 +4,7 @@
 type_extraction () {
 	table_name=$1
 
-	table_data=$(sed -nr "/table: $table_name/,/^(=)+$/p" meta)
+	table_data=$(sed -nr "/table: $table_name/,/^(=)+$/p" ../metadata/meta)
 
 	
 	declare -A ary
@@ -34,14 +34,14 @@ type_extraction () {
 
 		if [[ "$name" = $primary ]]
 		then
-			val="$val primary"
+			val="$val,primary"
 		fi
 
 		col_types["$name"]="$val"
 	done
 
-	echo "${col_types[@]@K}"
+	echo -e "${col_types[@]@K}"
+	
 	
 }
 
-type_extraction cats
