@@ -1,0 +1,7 @@
+Table: cats
+2
+name,age
+string,int
+pk: 1
+
+
