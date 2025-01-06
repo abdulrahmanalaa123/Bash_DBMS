@@ -1,7 +1,9 @@
 #!/bin/bash
 
-. ./type_validation.sh
-. ../metadata/metadata_parsing.sh
+list_input_source=$(dirname $0)
+
+. "$list_input_source/type_validation.sh"
+. "$list_input_source/../metadata/metadata_parsing.sh"
 
 # input is considered table_name col_amount cols_list vals_list
 list_validation () {
@@ -56,14 +58,14 @@ list_validation () {
 		col=${col_list[col_index]}
 		val=${val_list[col_index]} 
 
-		if [[ -n columns[$col] ]]
+		if [[ -n ${columns["$col"]} ]]
 		then
 			# the array declaration is useless its there because of the primary key but it should probably be removed
 			declare -a type_arr=(${columns["$col"]})
 			val_type=${type_arr[0]}
 
 			value=$(validate_type $val_type $col_amount)
-
+			
 			if [[ $value = "NaN" ]];
 			then
 				echo "please enter a valid ${val_type} for column ${col}"

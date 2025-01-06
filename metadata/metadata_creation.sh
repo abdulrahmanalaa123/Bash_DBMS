@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. ../validation/type_validation.sh
+creation_source=$(dirname "$0")
+. "$creation_source/../validation/type_validation.sh"
 
 # metadata_creation needs to be ran inside the source of database 
 # assuming it wont be ran unless you're connected where cd'd inside the database
@@ -89,7 +90,7 @@ metadata_creation () {
 		echo "please enter a valid primary key index starting from 0"
 		exit 1
 	fi
-	echo "$metadata_string" >> "./meta"
+	echo "$metadata_string" >> "$creation_source/meta"
 }
 
 

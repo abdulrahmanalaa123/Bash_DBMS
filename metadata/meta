@@ -16,3 +16,15 @@ column_names: bla,mar,ibla
 column_types: int,int,int
 primary_key_index: 1
 primary_key: mar
+================
+table: dogs
+column_names: bla,mar,ibla
+column_types: int,int,int
+primary_key_index: 1
+primary_key: mar
+================
+table: dogs
+column_names: bla,mar,ibla
+column_types: int,int,int
+primary_key_index: 1
+primary_key: mar

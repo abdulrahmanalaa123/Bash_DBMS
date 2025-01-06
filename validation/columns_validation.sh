@@ -1,25 +1,25 @@
 #!/bin/bash
 
+columns_validation=$(dirname $0)
+. "$columns_validation/../metadata/metadata_parsing.sh"
+
 column_exists () {
 	table_name=$1
+	shift
 	col_list=$@
-	
-
-	if [ ${#@} -ne $(((2*$col_amount))) ]
-	then
-		echo "please enter a valid amount of columns with their respective column types"
-		exit 1	
-	fi	
-	
-	#converting the seperationg to a list explicitly
-	declare -a col_list=(${@:1:$col_amount})
-	shift $(($col_amount))
-
-	#converting the seperationg to a list explicitly
-	declare -a val_list=(${@:1:$col_amount})
-	shift $(($col_amount))
 	
 	declare -a assoc_string=($(type_extraction $table_name))
 
-
+	for col in ${col_list[@]}
+	do
+		if [[ "${assoc_string[@]}" =~ (^|[[:space:]])$col($|[[:space:]]) ]]
+		then
+			echo "$col exists"
+		else
+			echo "column ${col} doesnt exist in table ${table_name}"
+			exit 1
+		fi
+	done
 }
+
+column_exists cats bla ibla mar hello 
