@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../type_validation.sh
+. ../validation/type_validation.sh
 
 # metadata_creation needs to be ran inside the source of database 
 # assuming it wont be ran unless you're connected where cd'd inside the database
@@ -79,8 +79,8 @@ metadata_creation () {
 		if [[ $1 -gt  0 ]] && [[ $1 -le $col_amount ]]
 		then
 			index=$1
-			metadata_string+=$(printf "\nprimary key Index: $index\n")	
-			metadata_string+=$(printf "\nprimary key: ${col_list[index]}\n")	
+			metadata_string+=$(printf "\nprimary_key_index: $index\n")	
+			metadata_string+=$(printf "\nprimary_key: ${col_list[index]}\n")	
 		else
 			echo "please enter a valid primary key index"
 			exit 1
@@ -93,7 +93,7 @@ metadata_creation () {
 }
 
 
-metadata_creation table 3 bla mar ibla int int int 1
+metadata_creation dogs 3 bla mar ibla int int int 1
 
 # metadata sample input is database name
 # table_name col_no col_list type_list  
