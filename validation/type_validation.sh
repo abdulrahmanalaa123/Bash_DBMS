@@ -9,7 +9,7 @@ validate_type () {
 		case $parameter_type in
 		int)
 			#rpelacing all 0-9 digits with nothing so if its an empty string so its not an integer
-			if [ -n ${@//[0-9]} ]
+			if [[ -n "${@//[0-9]}" ]]
 			then
 				echo "NaN"
 			else
@@ -23,7 +23,9 @@ validate_type () {
 			before_dot=${@%%\.*}
 
 			#after_dot and before_dot not empty so they have numbers 
-			if [ -n "$after_dot" ] && [ -n "$before_dot" ] && [ !-n ${after_dot//[0-9]} ] && [ !-n ${before_dot//[0-9]} ];
+			if [[ -n "$after_dot" ]] && \
+			[[ -n "$before_dot" ]] && \
+			[[ ! -n "${after_dot//[0-9]}" ]] &&  [[ ! -n "${before_dot//[0-9]}" ]];
 			then
 				echo $@
 			else
@@ -38,7 +40,7 @@ validate_type () {
 	else
 
 		echo "please enter a valid type out of int | string | float"
+		exit 1
 	fi
 }
 
-validate_type $@
