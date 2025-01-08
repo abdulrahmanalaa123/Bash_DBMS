@@ -8,7 +8,6 @@ source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
-source ./id/generate_id.sh
 
 show_databases () {
   show_command=$(echo "$@" | grep -w "^show$")
@@ -18,6 +17,7 @@ show_databases () {
     list_databases
   fi
 }
+
 
 list_databases () {
   PS3="Select the number of database name:"
@@ -36,6 +36,8 @@ list_databases () {
     fi
   done
 }
+
+
 
 while [[ $input != 'quit' ]];
 do
