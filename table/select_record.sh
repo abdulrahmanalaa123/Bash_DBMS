@@ -1,6 +1,10 @@
 #!/usr/bin/bash
 #2) SELECT name, age FROM cats;
 
+#declare -A cols_order
+declare -a cols_index
+source "./database/show_table.sh"
+
 function select_records() {
   getSelectValues $1
     if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$id" ]; then
@@ -8,7 +12,7 @@ function select_records() {
     getTableFIle
     getMetaFIle
     field_numbers
-    select_record
+    select_record $table_name $id $cols_index
   fi
 }
 
@@ -33,25 +37,20 @@ getMetaFIle() {
 }
 
 select_record(){
-  echo "selected records"
+  display_a_row $table_name $id "${cols_index[@]}"
 }
 
 field_numbers() {
-    table_cols=($(sed -n '3p' "$meta_path" | cut -d, -f1,2 | tr ',' ' '))
-
-    declare -A cols_order
+    n_of_cols=$(sed -n '2p' "$meta_path")
+    table_cols=($(sed -n '3p' "$meta_path" | cut -d, -f1-$n_of_cols | tr ',' ' '))
 
     for (( i = 0; i < ${#table_cols[@]}; i++ )); do
         for (( j = 0; j < ${#cols[@]}; j++ )); do
             if [[ "${cols[$j]}" == "${table_cols[$i]}" ]]; then
-                cols_order["${table_cols[$i]}"]=$i
+#                cols_order["${table_cols[$i]}"]=$((i + 1))
+                cols_index["${i}"]=$((i + 1))
             fi
         done
-    done
-
-    # Print the associative array
-    for key in "${!cols_order[@]}"; do
-        echo "$key => ${cols_order[$key]}"
     done
 }
 
@@ -59,4 +58,6 @@ order_columns(){
   echo asd
 }
 
+#TODO: table content starts with columns name??
+#TODO: Select only the required columns
 
