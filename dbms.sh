@@ -2,13 +2,12 @@
 
 source ./database/create_database.sh
 source ./database/drop_database.sh
+source ./database/show_tables.sh
+source ./database/show_table.sh
 source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
-source ./show_table.sh
-
-#!/usr/bin/bash
 
 show_databases () {
   show_command=$(echo "$@" | grep -w "^show$")
@@ -51,11 +50,12 @@ do
     echo '> List and connect to database by typing: show'
     continue
   fi
+  show_tables $input
+  show_table $input
   insert_record $input
   select_records $input
   update_record $input
   delete_record $input
-  display_csv_table $input
 done
 
 
