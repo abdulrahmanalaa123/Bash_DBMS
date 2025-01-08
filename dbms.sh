@@ -8,6 +8,7 @@ source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
+source ./id/generate_id.sh
 
 show_databases () {
   show_command=$(echo "$@" | grep -w "^show$")

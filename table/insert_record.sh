@@ -8,6 +8,7 @@ function insert_record() {
 
   if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$values" ]; then
 #    echo $table_name; echo ${cols[@]}; echo ${values[@]}
+    appendId
     appendToTableFile $table_path
   fi
 
@@ -20,7 +21,12 @@ function getInsertValues() {
   cols=($(echo $input | sed 's/ //g' | grep -oiP '(?<=\().*?(?=\)values)'| tr "," "\n"))
   values=($(echo $input | sed 's/ //g' | grep -oiP '(?<=values\().*(?=\))'| tr "," "\n"))
   values_joined=($(echo $input | sed 's/ //g' | grep -oiP '(?<=values\().*(?=\))'))
+}
 
+function appendId() {
+  generate_id
+  id=`cat id/id.txt`
+  values_joined=$id,$values_joined
 }
 
 getTableFIle() {
@@ -39,7 +45,7 @@ appendToTableFile() {
   fi
 }
 
-
+#TODO: consider ordering the values before adding to the file
 
 
 
