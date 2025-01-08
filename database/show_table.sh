@@ -9,17 +9,34 @@ show_table() {
       echo "Error: File '$table_name' not found."
       return 1
     else
-      echo "Displaying contents of '$table_name':"
-      echo "----------------------------------"
-        # format the CSV into columns
-      if [[ -n $line ]]; then
-#       awk -F, -v line="$line" 'BEGIN { OFS=" | " } NR==line { $1=$1; print }' "$path" | column -t -s "|"
-       awk -F, -v line="$line" 'BEGIN { OFS=" | " } NR==line { print $1, $2 }' "$path" | column -t -s "|"
-      else
-        awk -F, 'BEGIN { OFS=" | " } { $1=$1; print }' "$path" | column -t -s "|"
-      fi
-      echo "----------------------------------"
+     display_full_table
     fi
   fi
+}
+
+# shellcheck disable=SC2120
+display_full_table() {
+  echo "Displaying contents of '$table_name':"
+  echo "----------------------------------"
+    # format the CSV into columns
+  awk -F, 'BEGIN { OFS=" | " } { $1=$1; print }' "$path" | column -t -s "|"
+  echo "----------------------------------"
+}
+
+display_a_row () {
+  [[ -n "$1" && -n "$2" ]] &&
+  table_name=$1 &&
+  id=$2; shift; shift &&
+  cols_index=("$@") &&
+  path="Databases/$database/$table_name.csv"
+
+  echo "Displaying contents of '$table_name':"
+  echo "----------------------------------"
+    # format the CSV into columns
+    awk -F, -v id="$id" 'BEGIN {
+    OFS=" | " }
+    {if($1==id) print}' "$path" | column -t -s "|"
+  echo "----------------------------------"
+
 }
 

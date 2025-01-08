@@ -1,4 +1,4 @@
-PrimaryKey,Name,Age
+id,name,age
 1,Bishoy,21
 2,Abdo,22
 6,Mina,26
@@ -6,5 +6,5 @@ PrimaryKey,Name,Age
 8,Person8,28
 9,Person9,29
 10,Person10,30
-3,moro,20
+3,asdasd,1000
 

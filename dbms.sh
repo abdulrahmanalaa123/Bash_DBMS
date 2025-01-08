@@ -19,7 +19,6 @@ show_databases () {
   fi
 }
 
-
 list_databases () {
   PS3="Select the number of database name:"
   select db in "${databases[@]}";
@@ -37,8 +36,6 @@ list_databases () {
     fi
   done
 }
-
-
 
 while [[ $input != 'quit' ]];
 do

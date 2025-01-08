@@ -32,8 +32,7 @@
 #echo "Debug: Script started"
 
 function update_record() {
-  input="$1"
-  #echo "Debug: input received: $input"
+  input=$@
 
   # Extract table name, id, column names, and values
   table_name=$(echo "$input" | grep -oiP '(?<=update ).*(?= set)' | xargs)
@@ -45,9 +44,7 @@ function update_record() {
     return 1
   fi
 
-  # Define the path to the CSV file
-  csv_file="$HOME/${table_name}.csv"
- # echo "Debug: Checking if CSV file exists at '$csv_file'"
+  csv_file="Databases/$database/$table_name.csv"
   if [ ! -f "$csv_file" ]; then
     echo "Error: CSV file '$csv_file' does not exist."
     return 1
@@ -86,7 +83,7 @@ function update_record() {
         col_value="${updates[$col_name]}"
         for i in "${!header[@]}"; do
           if [ "${header[$i]}" == "$col_name" ]; then
-    #        echo "Debug: Updating column '$col_name' at index $i with value '$col_value'"
+            echo "Updating column '$col_name' at index $i with value '$col_value'"
             row[$i]="$col_value"
           fi
         done
@@ -105,7 +102,3 @@ function update_record() {
 
   echo "Record with id=$id updated successfully in CSV file '$csv_file'."
 }
-
-# Run the function
-update_record "$1"
-
