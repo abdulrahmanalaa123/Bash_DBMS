@@ -1,7 +1,7 @@
 Table: cats
-2
-name,age
-string,int
+3
+id,name,age
+string,string,int
 pk: 1
 
 

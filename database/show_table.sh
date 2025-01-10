@@ -30,12 +30,27 @@ display_a_row () {
   cols_index=("$@") &&
   path="Databases/$database/$table_name.csv"
 
-  echo "Displaying contents of '$table_name':"
+  echo "TABLE: $table_name:"
   echo "----------------------------------"
     # format the CSV into columns
-    awk -F, -v id="$id" 'BEGIN {
-    OFS=" | " }
-    {if($1==id) print}' "$path" | column -t -s "|"
+
+    cols_index_str=$(IFS=,; echo "${cols_index[*]}")
+
+    # Use awk to check the column values
+    awk -F, -v id="$id" -v cols_index_str="$cols_index_str" '
+      BEGIN {
+        split(cols_index_str, cols_array, ",");
+        OFS = " | ";
+      }
+      {
+        output = "";
+        if ($1 == id || NR == 1) {
+          for (i in cols_array) {
+            output = output (output ? "|" : "") $cols_array[i];
+          }
+        print output;
+        }
+      }' "$path" | column -t -s "|"
   echo "----------------------------------"
 
 }
