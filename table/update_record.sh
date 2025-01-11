@@ -60,12 +60,12 @@ process_data_file() {
       for col_name in "${!updates[@]}"; do
         col_value="${updates[$col_name]}"
         for i in "${!header[@]}"; do
-          echo "${#header[$i]}" "=>" "${#col_name}"
-          echo "${header[$i]}" "=>" "${col_name}"
+#          echo "${#header[$i]}" "=>" "${#col_name}"
+#          echo "${header[$i]}" "=>" "${col_name}"
           #TODO: fix this issue of string length
           col_name=$(echo "$col_name" | sed 's/ //g')
           if [ "${header[$i]}" == "$col_name" ]; then
-            echo "Updating column '$col_name' at index $i with value '$col_value'"
+#            echo "Updating column '$col_name' at index $i with value '$col_value'"
             row[$i]="$col_value"
           fi
         done
@@ -81,5 +81,5 @@ update_data_file() {
   # Write the updated lines back to the file
   printf "%s\n" "${updated_lines[@]}" > "$csv_file"
   echo "Record with id=$id updated successfully in CSV file '$csv_file'."
-  echo "updated_lines:" "${updated_lines[@]}"
+#  echo "updated_lines:" "${updated_lines[@]}"
 }
