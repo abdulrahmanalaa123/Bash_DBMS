@@ -78,9 +78,6 @@ process_data_file() {
 }
 
 update_data_file() {
-    echo "=============="
-  echo "${updated_lines[@]}"
-  echo "=============="
   # Write the updated lines back to the file
   printf "%s\n" "${updated_lines[@]}" > "$csv_file"
   echo "Record with id=$id updated successfully in CSV file '$csv_file'."
