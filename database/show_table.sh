@@ -25,17 +25,18 @@ display_full_table() {
 
 display_a_row () {
   [[ -n "$1" && -n "$2" ]] &&
-  table_name=$1 &&
-  id=$2; shift; shift &&
-  cols_index=("$@") &&
+  table_name=$1
+  #TODO: CLEAN this shit in the near future
+  id=$2;
+  id=${id//-/}
+  shift 2
+  cols_index=("$@")
   path="Databases/$database/$table_name.csv"
 
-  echo "TABLE: $table_name:"
   echo "----------------------------------"
     # format the CSV into columns
 
     cols_index_str=$(IFS=,; echo "${cols_index[*]}")
-
     # Use awk to check the column values
     awk -F, -v id="$id" -v cols_index_str="$cols_index_str" '
       BEGIN {
@@ -44,7 +45,7 @@ display_a_row () {
       }
       {
         output = "";
-        if ($1 == id || NR == 1) {
+        if ((!id|| $1 == id) || NR == 1) {
           for (i in cols_array) {
             output = output (output ? "|" : "") $cols_array[i];
           }
