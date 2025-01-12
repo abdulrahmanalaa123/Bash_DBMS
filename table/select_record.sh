@@ -7,11 +7,11 @@ declare -a cols_index
 source "$select_source/../database/show_table.sh"
 function select_records() {
   getSelectValues $@
-  if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$id" ]; then
+  if [ -n "$table_name" ]  &&[ -n "$cols" ]; then
     getTableFIle
     getMetaFIle
     field_numbers
-    display_a_row $table_name $id "${cols_index[@]}"
+    display_a_row $table_name -$id "${cols_index[@]}"
     cols_index=()
   fi
 }
