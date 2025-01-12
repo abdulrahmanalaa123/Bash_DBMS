@@ -25,8 +25,6 @@ remove_row_by_id() {
 }
 
 # Prompt the user for table name and primary key
-read -p "Enter the table name: " table_name
-read -p "Enter the primary key (id) of the row to delete: " primary_key
 
 # Call the remove_row_by_id function with user inputs
 remove_row_by_id "$table_name" "$primary_key"

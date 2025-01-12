@@ -11,19 +11,19 @@ column_types: int,int,int
 primary_key_index: 1
 primary_key: mar
 ================
-table: dogs
+table: kom
 column_names: bla,mar,ibla
 column_types: int,int,int
 primary_key_index: 1
 primary_key: mar
 ================
-table: dogs
+table: lok 
 column_names: bla,mar,ibla
 column_types: int,int,int
 primary_key_index: 1
 primary_key: mar
 ================
-table: dogs
+table: mor
 column_names: bla,mar,ibla
 column_types: int,int,int
 primary_key_index: 1
