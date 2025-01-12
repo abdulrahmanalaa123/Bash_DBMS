@@ -2,15 +2,13 @@
 
 source ./database/create_database.sh
 source ./database/drop_database.sh
+source ./database/show_tables.sh
+source ./database/show_table.sh
 source ./table/insert_record.sh
 source ./table/select_record.sh
 source ./table/update_record.sh
 source ./table/delete_record.sh
-source ./table/delete_row.sh
-source ./table/update_row.sh
-source ./show_table.sh
-
-#!/usr/bin/bash
+source ./id/generate_id.sh
 
 show_databases () {
   show_command=$(echo "$@" | grep -w "^show$")
@@ -20,7 +18,6 @@ show_databases () {
     list_databases
   fi
 }
-
 
 list_databases () {
   PS3="Select the number of database name:"
@@ -40,8 +37,6 @@ list_databases () {
   done
 }
 
-
-
 while [[ $input != 'quit' ]];
 do
   read -p "> " input
@@ -53,11 +48,12 @@ do
     echo '> List and connect to database by typing: show'
     continue
   fi
+  show_tables $input
+  show_table $input
   insert_record $input
   select_records $input
   update_record $input
   delete_record $input
-  display_csv_table $input
 done
 
 
