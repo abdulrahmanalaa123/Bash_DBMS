@@ -1,10 +1,13 @@
 
 # assuming source execution for looking at current working dir
+type_source=$(dirname ${BASH_SOURCE[0]})
 
+#after calling the function you can use the return
+# by calling the associative array called col_types
 type_extraction () {
 	table_name=$1
-
-	table_data=$(sed -nr "/table: $table_name/,/^(=)+$/p" ../metadata/meta)
+	meta_source="$type_source/../Databases/$database/$database.meta"
+	table_data=$(sed -nr "/table: $table_name/,/^(=)+$/p" "$meta_source")
 
 	
 	declare -A ary
@@ -24,24 +27,16 @@ type_extraction () {
 	IFS="," read -r -a types < <(echo -e "${ary["column_types"]}")
 
 	primary=${ary["primary_key"]}
-	declare -A col_types
 
+	col_types=()
+
+	col_types["primary"]=$primary
 	#using the indirect exapnsion to get the indeces as a space speerated list
 	for index in ${!col_names[@]}
 	do
 		name=${col_names[index]}
-		val=${types[$index]}
-
-		if [[ "$name" = $primary ]]
-		then
-			val="$val,primary"
-		fi
-
+		val=${types[index]}
 		col_types["$name"]="$val"
 	done
 
-	echo -e "${col_types[@]@K}"
-	
-	
 }
-

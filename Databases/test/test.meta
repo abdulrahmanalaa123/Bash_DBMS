@@ -1,0 +1,6 @@
+================
+table: table
+column_names: column1,column2
+column_types: int,int
+primary_key_index: 1
+primary_key: column2

@@ -39,6 +39,7 @@ list_databases () {
 
 while [[ $input != 'quit' ]];
 do
+  echo $database
   read -p "> " input
   create_database $input
   show_databases $input
