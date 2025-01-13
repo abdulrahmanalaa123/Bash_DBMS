@@ -2,6 +2,7 @@
 # 3) UPDATE cats SET name = jack, age = 19 WHERE id=1
 update_source=$(dirname ${BASH_SOURCE[0]})
 
+. "$update_source/../validation/list_input_validation.sh"
 # Function to update a record
 function update_record() {
   input=$@
@@ -10,8 +11,15 @@ function update_record() {
   declare -A updates
   get_updates_values
   csv_file="$update_source/../Databases/$database/$table_name.csv"
-#  validate_input
+
   if [ -n "$table_name" ] && [ -n "$id" ] && [ -n "$col_assignments" ]; then
+
+    update_validate_input
+    if [[ $? -eq 1 ]]
+      then
+        echo "invalid type"
+        return 1
+    fi
     create_updates_hash
     process_data_file
     update_data_file
@@ -24,16 +32,32 @@ get_updates_values() {
   col_assignments=$(echo "$input" | grep -oiP '(?<=set ).*(?= where)' | xargs)
 }
 
-validate_input() {
+update_validate_input() {
   if [ -z "$table_name" ] || [ -z "$id" ] || [ -z "$col_assignments" ]; then
     echo "Error: Invalid input or missing parameters."
     return 1
+
   fi
 
   if [ ! -f "$csv_file" ]; then
     echo "Error: CSV file '$csv_file' does not exist."
     return 1
   fi
+
+   col_names_validate=($(echo $input | sed 's/ //g' | tr 'A-Z' 'a-z' |\
+    sed -E 's/^.*set(.*)where.*$/\1/' | \
+    awk -F, '{for (i=1; i<=NF; i++) {split($i, a, "="); print a[1];}}'))
+
+    col_values_validate=($(echo $input | sed 's/ //g' | tr 'A-Z' 'a-z' | \
+    sed -E 's/^.*set(.*)where.*$/\1/' | \
+    awk -F, '{for (i=1; i<=NF; i++) {split($i, a, "="); print a[2];}}'))
+
+    ret=$(list_validation $table_name ${#col_names_validate} ${col_names_validate[@]} ${col_values_validate[@]})
+
+    if [[ $ret != "valid" ]]
+    then
+      return 1
+    fi
 }
 
 create_updates_hash() {

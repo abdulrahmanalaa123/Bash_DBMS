@@ -2,6 +2,7 @@
 #1) INSERT INTO table_name (column1, column2, column3, ...)
 # VALUES (value1, value2, value3, ...);
 insert_source=$(dirname ${BASH_SOURCE[0]})
+. "$insert_source/../validation/list_input_validation.sh"
 
 function insert_record() {
   getInsertValues $@
@@ -9,12 +10,26 @@ function insert_record() {
 
   if [ -n "$table_name" ]  &&[ -n "$cols" ] && [ -n "$values" ]; then
 #    echo $table_name; echo ${cols[@]}; echo ${values[@]}
+
+    insert_validate_input
+    if [[ $? -eq 1 ]]
+      then
+        echo "invalid type"
+        return 1
+    fi
     appendId
     appendToTableFile $table_path
   fi
 
 }
+insert_validate_input () {
+    ret=$(list_validation $table_name ${#cols} ${cols[@]} ${values[@]})
 
+    if [[ $ret != "valid" ]]
+    then
+        return 1
+    fi
+}
 function getInsertValues() {
   input=$@
   table_name=($(echo $input | grep -oiP '(?<=insert into).*(?=\()'))
