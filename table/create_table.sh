@@ -6,13 +6,12 @@ create_table_source=$(dirname ${BASH_SOURCE[0]})
 # create table (colmn1 type, column2 tyep2 ....) 
 create_table() {
 	query=$(echo $@)
-	create_extraction	
 	
+	create_table_check	
 	#compare the main_command with create
-	if [[  $main_command = "create" ]]
+	if [[  -n $table_name ]]
 	then
 	
-		create_table_check	
 		path="$create_table_source/../Databases/$database/$table_name.csv"
 
 		if [[ -e $path ]]
@@ -64,10 +63,8 @@ create_extraction () {
 
 create_table_check () {
 	#extract table name from the query
-	table_name=$(echo $query | grep -Eo '[[:space:]]+(\w)+[[:space:]]+[\(]{1}')
+	table_name=$(echo ${query// /} | grep -ioP '(?<=createtable).*(?=\()')
 	#remove the extra delimiting which is the bracker
-	table_name=${table_name//[ \(]/}
-	table_name=${table_name,,}
 }
 
 check_colName () {
