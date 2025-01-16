@@ -10,7 +10,7 @@ type_extraction () {
 	table_data=$(sed -nr "/table: $table_name/,/^(=)+$/p" "$meta_source")
 
 	
-	declare -A ary
+	ary=()
 
 	while IFS=": " read -r key value;
 	do

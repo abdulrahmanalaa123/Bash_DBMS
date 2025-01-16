@@ -36,7 +36,6 @@ display_a_row () {
 
   echo "----------------------------------"
     # format the CSV into columns
-
     cols_index_str=$(IFS=,; echo "${cols_index[*]}")
     # Use awk to check the column values
     awk -F, -v id="$id" -v cols_index_str="$cols_index_str" '
@@ -54,5 +53,4 @@ display_a_row () {
         }
       }' "$path" | column -t -s "|"
   echo "----------------------------------"
-
 }

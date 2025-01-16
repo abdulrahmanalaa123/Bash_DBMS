@@ -13,15 +13,23 @@ source ./table/delete_record.sh
 source ./id/generate_id.sh
 
 show_databases () {
-  show_command=$(echo "$@" | grep -w "^show$")
+  show_command=$(echo "$@" | sed 's/ //g' | grep -w "^showdatabases$")
+  select_command=$(echo "$@" | sed 's/ //g' | grep -w "^selectdatabase$")
   databases=($(ls Databases))
+
   if [[ -n "$show_command" ]]
   then
-    list_databases
+    for d in "${databases[@]}" ; do
+        echo $d
+    done
+  fi
+  if [[ -n "$select_command" ]]
+  then
+    select_database
   fi
 }
 
-list_databases () {
+select_database () {
   PS3="Select the number of database name:"
   select db in "${databases[@]}";
   do
@@ -39,15 +47,25 @@ list_databases () {
   done
 }
 
+use_databse () {
+    db_name=($(echo $input | sed 's/ //g' | grep -oiP '(?<=usedatabase).*'))
+    if [[ $db_name && -d "Databases/$db_name" ]]; then
+      echo "connected to: $db_name"
+      database=$db_name
+    fi
+}
+
+
 while [[ $input != 'quit' ]];
 do
   read -p "> " input
   create_database $input
+  use_databse $input
   show_databases $input
   drop_database $input
   if [[ -z $database ]];
   then
-    echo '> List and connect to database by typing: show'
+    echo '> List and connect to database by typing: select database'
     continue
   fi
   show_tables $input

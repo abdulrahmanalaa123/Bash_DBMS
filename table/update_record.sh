@@ -40,24 +40,24 @@ update_validate_input() {
   fi
 
   if [ ! -f "$csv_file" ]; then
-    echo "Error: CSV file '$csv_file' does not exist."
+    echo "Error: table does not exist."
     return 1
   fi
 
-   col_names_validate=($(echo $input | sed 's/ //g' | tr 'A-Z' 'a-z' |\
-    sed -E 's/^.*set(.*)where.*$/\1/' | \
-    awk -F, '{for (i=1; i<=NF; i++) {split($i, a, "="); print a[1];}}'))
-
-    col_values_validate=($(echo $input | sed 's/ //g' | tr 'A-Z' 'a-z' | \
-    sed -E 's/^.*set(.*)where.*$/\1/' | \
-    awk -F, '{for (i=1; i<=NF; i++) {split($i, a, "="); print a[2];}}'))
-
-    ret=$(list_validation $table_name ${#col_names_validate} ${col_names_validate[@]} ${col_values_validate[@]})
-
-    if [[ $ret != "valid" ]]
-    then
-      return 1
-    fi
+#   col_names_validate=($(echo $input | sed 's/ //g' | tr 'A-Z' 'a-z' |\
+#    sed -E 's/^.*set(.*)where.*$/\1/' | \
+#    awk -F, '{for (i=1; i<=NF; i++) {split($i, a, "="); print a[1];}}'))
+#
+#    col_values_validate=($(echo $input | sed 's/ //g' | tr 'A-Z' 'a-z' | \
+#    sed -E 's/^.*set(.*)where.*$/\1/' | \
+#    awk -F, '{for (i=1; i<=NF; i++) {split($i, a, "="); print a[2];}}'))
+#
+#    ret=$(list_validation $table_name ${#col_names_validate} ${col_names_validate[@]} ${col_values_validate[@]})
+#
+#    if [[ $ret != "valid" ]]
+#    then
+#      return 1
+#    fi
 }
 
 create_updates_hash() {
@@ -103,6 +103,6 @@ process_data_file() {
 update_data_file() {
   # Write the updated lines back to the file
   printf "%s\n" "${updated_lines[@]}" > "$csv_file"
-  echo "Record with id=$id updated successfully in CSV file '$csv_file'."
+  echo "Record with id=$id updated successfully."
 #  echo "updated_lines:" "${updated_lines[@]}"
 }

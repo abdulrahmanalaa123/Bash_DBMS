@@ -5,7 +5,7 @@ create_table_source=$(dirname ${BASH_SOURCE[0]})
 
 # create table (colmn1 type, column2 tyep2 ....) 
 create_table() {
-	query=$(echo $@)
+	query="$@"
 	
 	create_table_check	
 	#compare the main_command with create
